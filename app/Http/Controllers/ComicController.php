@@ -39,17 +39,17 @@ class ComicController extends Controller
     {
         $data = $request->all();
 
-        $newComic = new Comic();
-        $newComic->Titolo = $data["Titolo"];
-        $newComic->descrizione = $data["descrizione"];
-        $newComic->prezzo = $data["prezzo"];
-        $newComic->serie = $data["serie"];
-        $newComic->data_vendita = $data["data_vendita"];
-        $newComic->tipo = $data["tipo"];
-        if(!empty($data["immagine"])){
-            $newComic->immagine = $data["immagine"];
-        }
-        $newComic->save();
+        $request->validate([
+            "Titolo"=>"required|string|max:100",
+            "descrizione"=>"required|string",
+            "immagine"=>"required|url",
+            "prezzo"=>"required|string|max:7",
+            "serie"=>"required|string|max:50",
+            "data_vendita"=>"required|string|max:10",
+            "tipo"=>"required|string|max:20"
+        ]);
+
+        $newComic = Comic::create($data);
 
         return redirect()->route("comics.show", $newComic->id);        
 
@@ -90,16 +90,17 @@ class ComicController extends Controller
     {
         $data = $request->all();
 
-        $comic->Titolo = $data["Titolo"];
-        $comic->descrizione = $data["descrizione"];
-        $comic->prezzo = $data["prezzo"];
-        $comic->serie = $data["serie"];
-        $comic->data_vendita = $data["data_vendita"];
-        $comic->tipo = $data["tipo"];
-        if(!empty($data["immagine"])){
-            $comic->immagine = $data["immagine"];
-        }
-        $comic->save();
+        $request->validate([
+            "Titolo"=>"required|string|max:100",
+            "descrizione"=>"required|string",
+            "immagine"=>"required|url",
+            "prezzo"=>"required|string|max:7",
+            "serie"=>"required|string|max:50",
+            "data_vendita"=>"required|string|max:10",
+            "tipo"=>"required|string|max:20"
+        ]);
+
+        $comic->update($data);
 
         return redirect()->route("comics.show", $comic->id); 
     }
